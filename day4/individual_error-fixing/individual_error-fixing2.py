@@ -145,5 +145,4 @@ def play_again():
         print("Invalid choice. Please try again.")
         play_again()
 
-if __name__ == "__main__":
-    start_game()
+start_game(play_again=False)

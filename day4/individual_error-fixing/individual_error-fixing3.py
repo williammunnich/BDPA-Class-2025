@@ -21,7 +21,6 @@ Functions:
 
 import time
 import os
-import random
 
 # ASCII frames for Rick Astley dance
 frames = [
@@ -46,7 +45,7 @@ frames = [
    / \\
     """,
     """
-    o_
+    o
    /|\\
    / \\
     """
@@ -81,12 +80,12 @@ def dance():
                 lyric_index = (lyric_index + 1) % len(lyrics)
                 
                 # Sleep to control animation speed
-                time.sleep(0.3)
+                time.sleep(a)
     except KeyboardInterrupt:
         clear_screen()
         print("Rick rolled away...")
 
 if __name__ == "__main__":
-    print("Rick Astley is dancing! Press Ctrl+C to stop.")
+    print("Rick Astley is dancing! Press Ctrl+C to stop." + 3)
     time.sleep(2)
     dance()

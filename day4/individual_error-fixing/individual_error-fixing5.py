@@ -32,7 +32,6 @@ Features:
 # +-----------------------------+
 
 import pygame
-import time
 import random
 
 # Initialize pygame
@@ -71,7 +70,7 @@ def your_score(score):
     value = score_font.render("Score: " + str(score), True, white)
     display.blit(value, [0, 0])
 
-def gameLoop():
+deff gameLoop():
     game_over = False
     game_close = False
 

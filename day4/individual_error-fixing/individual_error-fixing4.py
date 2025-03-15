@@ -13,7 +13,7 @@
 # +-----------------------------+
 def funny_name_generator(first_initial, last_initial):
     
-    first_parts = {
+    first_parts = {{
         'A': 'Atomic',
         'B': 'Bouncy',
         'C': 'Crispy',
@@ -40,7 +40,7 @@ def funny_name_generator(first_initial, last_initial):
         'X': 'Xtra',
         'Y': 'Yappy',
         'Z': 'Zippy'
-    }
+    }}
     
     # Dictionary for last name initial mapping to funny last parts
     last_parts = {
@@ -70,14 +70,14 @@ def funny_name_generator(first_initial, last_initial):
         'X': 'Xerox',
         'Y': 'Yeti',
         'Z': 'Zebra'
-    }
+    }}
     
     # Get the funny name parts based on initials
     first_part = first_parts.get(first_initial.upper(), "Mystery")
     last_part = last_parts.get(last_initial.upper(), "Creature")
     
     # Combine and return
-    return f"{first_part} {last_part}"
+    return f"{first_part} {last_part}'
 
 def main():
     print("Welcome to the Funny Two-Part Name Generator!")
