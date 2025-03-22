@@ -3,7 +3,7 @@ import re
 from bs4 import BeautifulSoup
 
 # Open and read the HTML file
-with open("coding_youtube_vreative_commons.html", "r", encoding="utf-8") as file:
+with open("coding_youtube_creative_commons.html", "r", encoding="utf-8") as file:
     html_content = file.read()
 
 # TODO: What does BeautifulSoup do here?
