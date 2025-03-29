@@ -6,7 +6,8 @@ url = "https://www.nasa.gov/podcasts/"
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
 
-# Find podcast links using CSS selector - links starting with NASA podcasts URL
+# Find podcast links using CSS selector
+# Select all anchor tags with href starting with 'https://www.nasa.gov/podcasts/'S
 podcast_links = [link['href'] for link in soup.select("a[href^='https://www.nasa.gov/podcasts/']")]
 
 # Save the links to a file

@@ -14,7 +14,7 @@ soup = BeautifulSoup(response.text, 'html.parser')
 temperature = soup.select_one(".h2").get_text()
 
 # Display scraped temperature (optional)
-print(f"Current temperature in New York: {temperature}")
+print(f"Current temperature in Minneapolis: {temperature}")
 
 # Save the scraped temperature to a file
 with open("weather_minneapolis.txt", "w") as file:

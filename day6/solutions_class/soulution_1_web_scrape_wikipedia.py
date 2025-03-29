@@ -1,3 +1,4 @@
+#This code is cokplete and identical to 1_web_scrape_wikipedia.py
 import requests
 from bs4 import BeautifulSoup
 import csv
@@ -7,7 +8,7 @@ url = "https://simple.wikipedia.org/wiki/Python_(programming_language)"
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
 
-# Scraping first paragraph text
+# Scraping first paragraph text of the Python Programming Language Wikipedia page
 paragraphs = soup.select('p')
 text_content = paragraphs[0].get_text()
 
