@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 # URL of the webpage to scrape
-url = "https://www.timeanddate.com/weather/usa/new-york"
+url = "https://www.timeanddate.com/weather/usa/minneapolis"
 
 # Request the webpage content
 response = requests.get(url)
@@ -17,6 +17,6 @@ temperature = soup.select_one(".h2").get_text()
 print(f"Current temperature in New York: {temperature}")
 
 # Save the scraped temperature to a file
-with open("weather_ny.txt", "w") as file:
-    file.write(f"Current temperature in New York: {temperature}")
+with open("weather_minneapolis.txt", "w") as file:
+    file.write(f"Current temperature in Minneapolis: {temperature}")
 

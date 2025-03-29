@@ -10,13 +10,13 @@ response = requests.get(url)
 # STEP 3: Parse the webpage content with BeautifulSoup
 soup = BeautifulSoup(response.text, 'html.parser')
 
-# STEP 4: Scrape all headings (h2 tags) from the Wikipedia page
-scraped_elements = soup.select("h2 .mw-headline")
+# STEP 4: Scrape all paragraphs (p tags) from the Wikipedia page
+scraped_elements = soup.select("p")
 
 # STEP 5: Process and save the scraped headings into a file
-with open("scraped_headlines.txt", "w") as file:
+with open("scraped_pragaraphs.txt", "w") as file:
     for element in scraped_elements:
         # Extract and save text content from each heading
         content = element.get_text(strip=True)
         file.write(content + "\n")
-        print(f"Saved heading: {content}")
+        print(f"Saved paragraphs: {content}")
