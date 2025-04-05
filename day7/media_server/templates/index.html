@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Media Server</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0f0f0f;
+            color: #fff;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #0f0f0f;
+            padding: 15px 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-area svg {
+            width: 40px;
+            height: 40px;
+            fill: #30E3CA;
+        }
+
+        .logo-area h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+            color: white;
+        }
+
+        .search-form {
+            display: flex;
+            border-radius: 40px;
+            overflow: hidden;
+            border: 1px solid #3c3c3c;
+            background-color: #181818;
+            height: 40px;
+        }
+
+        .search-form input[type="text"] {
+            background-color: transparent;
+            border: none;
+            outline: none;
+            padding: 0 16px;
+            color: white;
+            width: 300px;
+        }
+
+        .search-form button {
+            background-color: #282828;
+            border: none;
+            padding: 0 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-form button svg {
+            fill: white;
+            width: 18px;
+            height: 18px;
+        }
+
+        .upload-container {
+            position: relative;
+        }
+
+        .upload-btn {
+            background-color: #282828;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .upload-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .upload-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .featured-player {
+            margin: 30px auto;
+            max-width: 960px;
+            padding: 20px;
+            background: #181818;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .media-card {
+            background: #181818;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .media-card:hover {
+            transform: scale(1.03);
+        }
+
+        video, audio {
+            width: 100%;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 160px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #aaa;
+        }
+
+        .download-link {
+            margin-top: 10px;
+            color: #3ea6ff;
+            text-decoration: none;
+        }
+
+        .download-link:hover {
+            text-decoration: underline;
+        }
+
+        .delete-button {
+            background: none;
+            border: none;
+            color: #ff4e4e;
+            cursor: pointer;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .delete-button:hover {
+            text-decoration: underline;
+        }
+
+        .delete-form {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo-area">
+            <svg fill="#00fdff" height="1000px" width="1000px" viewBox="0 0 495 495" xmlns="http://www.w3.org/2000/svg">
+                <path d="..."/> <!-- truncated for brevity -->
+            </svg>
+            <h1>My Media Server</h1>
+        </div>
+
+        <form class="search-form" method="get" action="/">
+            <input type="text" name="search" placeholder="Search" value="{{ search or '' }}">
+            <button type="submit">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.8l-.3-.3..."/></svg>
+            </button>
+        </form>
+
+        <div class="upload-container">
+            <form id="upload-form" class="upload-form" enctype="multipart/form-data">
+                <label class="upload-btn">
+                    <svg viewBox="0 0 24 24" fill="white"><path d="M10 16v-4H6l6-6 6 6h-4v4h-4zm-6 2h16v2H4v-2z"/></svg>
+                    Upload
+                    <input class="upload-input" type="file" name="file" id="upload-input" required>
+                </label>
+            </form>
+            <p id="upload-message" style="margin-top: 10px; color: #3ea6ff;"></p>
+        </div>
+    </div>
+
+    <div class="featured-player" id="featured">
+        <h2>Now Playing</h2>
+        <p>Select a media file below to play it here.</p>
+    </div>
+
+    <div class="media-grid">
+        {% for f in files %}
+        <div class="media-card" onclick="selectMedia('/stream/{{ f.Key }}', '{{ f.Key }}', '{{ 'video' if f.Key.endswith('.mp4') else 'audio' }}')">
+            <strong>{{ f.Key }}</strong>
+
+            {% if f.Key.endswith('.mp4') %}
+                <video muted preload="metadata" onmouseover="this.play()" onmouseout="this.pause(); this.currentTime = 0;">
+                    <source src="/stream/{{ f.Key }}" type="video/mp4">
+                </video>
+            {% elif f.Key.endswith('.mp3') %}
+                <div class="thumbnail">🎵 Audio</div>
+                <audio preload="none">
+                    <source src="/stream/{{ f.Key }}" type="audio/mpeg">
+                </audio>
+            {% endif %}
+
+            <a href="/download/{{ f.Key }}" class="download-link" onclick="event.stopPropagation()">Download</a>
+
+            <form class="delete-form" method="post" action="/delete/{{ f.Key }}" onsubmit="return confirmDelete(event, '{{ f.Key }}')">
+                <button type="submit" class="delete-button">🗑️ Delete</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Media preview hover logic
+        document.querySelectorAll('.media-card video').forEach(video => {
+            video.addEventListener('mouseover', function () {
+                document.querySelectorAll('.media-card video').forEach(v => {
+                    if (v !== video) {
+                        v.pause();
+                        v.currentTime = 0;
+                    }
+                });
+                video.play();
+            });
+
+            video.addEventListener('mouseout', function () {
+                video.pause();
+                video.currentTime = 0;
+            });
+        });
+
+        // Featured playback logic
+        function selectMedia(src, filename, type) {
+            const featured = document.getElementById("featured");
+            featured.innerHTML = `<h2>Now Playing: ${filename}</h2>`;
+
+            let media = document.createElement(type === 'video' ? 'video' : 'audio');
+            media.controls = true;
+            media.autoplay = true;
+            if (type === 'video') media.width = 800;
+
+            const source = document.createElement('source');
+            source.src = src;
+            source.type = type === 'video' ? 'video/mp4' : 'audio/mpeg';
+
+            media.appendChild(source);
+            featured.appendChild(media);
+        }
+
+        const form = document.getElementById("upload-form");
+        const input = document.getElementById("upload-input");
+        const message = document.getElementById("upload-message");
+
+        input.addEventListener("change", function () {
+            const file = input.files[0];
+            if (!file) return;
+
+            const maxSize = 49 * 1024 * 1024; // 49 MB
+
+            if (file.size > maxSize) {
+                message.textContent = "❌ File is too large (max 49MB). Please choose a smaller file.";
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            message.textContent = "⏳ Uploading...";
+
+            fetch("/upload", {
+                method: "POST",
+                body: formData
+            })
+            .then(res => {
+                if (res.ok) {
+                    message.textContent = "✅ Upload successful!";
+                    setTimeout(() => window.location.reload(), 1000);
+                } else {
+                    return res.text().then(text => {
+                        throw new Error(text || "Upload failed");
+                    });
+                }
+            })
+            .catch(err => {
+                message.textContent = "❌ " + err.message;
+            });
+        });
+
+        // Handle delete
+        function confirmDelete(event, filename) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            if (confirm(`Are you sure you want to delete "${filename}"?`)) {
+                fetch(`/delete/${filename}`, { method: "POST" })
+                    .then(res => {
+                        if (res.ok) {
+                            alert("✅ File deleted!");
+                            window.location.reload();
+                        } else {
+                            return res.text().then(text => {
+                                throw new Error(text || "Delete failed");
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        alert("❌ " + err.message);
+                    });
+            }
+
+            return false;
+        }
+    </script>
+</body>
+</html>

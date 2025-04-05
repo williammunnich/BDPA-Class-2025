@@ -1,0 +1,10 @@
+# Ignore .venv directory
+.venv/*
+
+.env.local
+.env.cloud
+.env
+day7/media_server/.DS_Store
+day7/.DS_Store
+.DS_Store
+.DS_Store
