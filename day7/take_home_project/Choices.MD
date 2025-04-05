@@ -1,7 +1,3 @@
-Absolutely! Here’s the revised and polished **Take-Home Info Sheet**, with full URLs spelled out (not linkified), written to be parent- and student-friendly, with space for writing in the margins:
-
----
-
 **🎉 Presentations & Prizes – Coming Up April 12th!**  
 📢 Students will present their projects next week — we’ll be celebrating creativity, effort, and problem-solving with prizes and applause!  
 🧑‍💻 Help your child stay on track by encouraging them to complete one of the take-home challenges below.
@@ -59,7 +55,3 @@ Absolutely! Here’s the revised and polished **Take-Home Info Sheet**, with ful
 
 ### ✨ Reminder: Presentations & Prizes – Friday, April 12th!  
 Encourage your child to finish strong — we’ll be celebrating everyone’s hard work and creativity with fun prizes and a mini showcase!
-
----
-
-Let me know if you’d like a version with even more white space or formatted as a printable handout (e.g. PDF or Word).
